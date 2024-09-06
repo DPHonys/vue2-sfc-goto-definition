@@ -71,6 +71,10 @@ You can author your README using Visual Studio Code. Here are some useful editor
 **Enjoy!**
 
 # TODO
-[ ] Make it work
-[ ] Get rid od webpack
-[ ] Olda profits
+
+- [x] Make it work
+- [ ] Trigger on ctrl-click (or on go to definition event)
+- [ ] Get rid of webpack (tsup or rollup)
+- [ ] Olda profits
+- [ ] Read me
+- [ ] Publish v0
