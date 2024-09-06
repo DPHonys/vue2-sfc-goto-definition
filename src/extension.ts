@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import { ExtensionContext, languages, commands, Uri } from "vscode";
 import { dirname } from "node:path";
 
 function joinOnOverlap(dirPath: string, filePath: string): string | undefined {
@@ -23,8 +23,8 @@ function joinOnOverlap(dirPath: string, filePath: string): string | undefined {
   return '/' + newPathParts.join("/");
 }
 
-export function activate(context: vscode.ExtensionContext) {
-  const provider = vscode.languages.registerDefinitionProvider(
+export function activate(context: ExtensionContext) {
+  const provider = languages.registerDefinitionProvider(
     { scheme: "file", language: "vue" },
     {
       provideDefinition(document, position) {
@@ -95,7 +95,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         // TODO: Check if file exists
 
-        vscode.commands.executeCommand("vscode.open", vscode.Uri.file(joinedPath));
+        commands.executeCommand("vscode.open", Uri.file(joinedPath));
       },
     }
   );
