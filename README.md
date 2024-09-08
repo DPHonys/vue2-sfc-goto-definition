@@ -84,7 +84,7 @@ You can author your README using Visual Studio Code. Here are some useful editor
 - [x] Get rid of webpack (tsup or rollup)
 - [x] package.json
 - [ ] Read me
-- [ ] License
+- [x] License
 - [ ] Publish v1
 - [ ] Olda profits
 
