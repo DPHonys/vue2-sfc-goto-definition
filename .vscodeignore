@@ -8,5 +8,5 @@ src/**
 **/eslint.config.mjs
 **/*.map
 **/*.ts
-**/prettier.config.js
-rollup.config.js
+**/prettier.config.mjs
+**/rollup.config.mjs
