@@ -1,6 +1,12 @@
-import { ExtensionContext, workspace } from "vscode"
+import {
+  ExtensionContext,
+  workspace,
+  commands,
+  ConfigurationTarget
+} from "vscode"
 import { vue2SfcGotoDefinitionProvider } from "./definitionProvider"
 import { ConfigurationFullKeys, config } from "./configuration"
+import { setGoto } from "./commands"
 
 function enableDefinitionProvider(context: ExtensionContext) {
   context.subscriptions.push(vue2SfcGotoDefinitionProvider())
@@ -26,6 +32,14 @@ export function activate(context: ExtensionContext) {
       } else {
         disableDefinitionProvider(context)
       }
+    }
+  })
+
+  // Register commands
+  Object.values(ConfigurationTarget).forEach((target) => {
+    const command = setGoto(target as ConfigurationTarget)
+    if (command) {
+      commands.registerCommand(...command)
     }
   })
 }

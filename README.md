@@ -78,7 +78,7 @@ You can author your README using Visual Studio Code. Here are some useful editor
 - [x] Precise position or range
 - [x] Config (name, export default, template)
 - [x] Config alias resolving
-- [ ] Only peek commands (Global, workspace)
+- [x] Only peek commands (Global, workspace)
 - [x] Eslint rules (and prettier?)
 - [x] Remove everything related to tests
 - [x] Get rid of webpack (tsup or rollup)
