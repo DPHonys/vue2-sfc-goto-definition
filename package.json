@@ -3,7 +3,7 @@
   "name": "vue2-sfc-goto-definition",
   "displayName": "Vue 2 SFC Goto Definition",
   "description": "Go to component definition in Vue 2 SFC",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "packageManager": "pnpm@9.0.6",
   "author": "Daniel Petr Honys <danielhonys@gmail.com>",
   "engines": {
@@ -52,12 +52,8 @@
     "compile": "webpack",
     "watch": "webpack --watch",
     "package": "webpack --mode production --devtool hidden-source-map",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "lint": "eslint src && prettier --check src",
-    "lint:fix": "prettier --write --list-different src && eslint src --fix",
-    "test": "vscode-test"
+    "lint:fix": "prettier --write --list-different src && eslint src --fix"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.7",
@@ -65,8 +61,6 @@
     "@types/vscode": "^1.93.0",
     "@typescript-eslint/eslint-plugin": "^8.3.0",
     "@typescript-eslint/parser": "^8.3.0",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1",
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
