@@ -1,6 +1,7 @@
-import { ExtensionContext, languages, Uri, Location, Position, commands } from "vscode";
+import { ExtensionContext, languages, Uri, Location, Position } from "vscode";
 import { dirname } from "node:path";
 import { joinOnOverlap } from "./utils";
+import { existsSync } from "node:fs";
 
 export function activate(context: ExtensionContext) {
   const provider = languages.registerDefinitionProvider(
@@ -74,12 +75,16 @@ export function activate(context: ExtensionContext) {
           return null;
         }
 
-        // TODO: Check if file exists
+        // Check if file exists
+        const uri = Uri.file(joinedPath);
+        if (!existsSync(uri.fsPath)) {
+          return null;
+        }
 
         // TODO: get precise position - try name of component, or export default as fallback use template
 
         // Open the file in the editor
-        const location = new Location(Uri.file(joinedPath), new Position(0, 0));
+        const location = new Location(uri, new Position(0, 0));
         return location;
       },
     }
