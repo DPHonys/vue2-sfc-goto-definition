@@ -1,95 +1,57 @@
-# vue2-sfc-goto-definition README
+<p align="center">
+<img src="./assets/icon.png" height="180">
+</p>
 
-This is the README for your extension "vue2-sfc-goto-definition". After writing up a brief description, we recommend including the following sections.
+<h1 align="center">
+Vue 2 SFC goto definition
+</h1>
 
-## Features
+<p align="center">
+Go to component definition in Vue 2 single file component.
+</p>
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Motivation
 
-For example if there is an image subfolder under your extension project workspace:
+When working on "legacy" projects that use Vue 2, you sometimes need to jump to a component you're using in another component. [The Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) extension for VSCode doesn't quite work for this—it goes to the nearest definition in the current file rather than the component file itself. So, I've created this small extension to make my day-to-day work a bit easier.
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+- `vue2SfcGotoDefinition.enable`: Enables or disables this extension.
+- `vue2SfcGotoDefinition.location`: Specify location of the definition in the component. Where to jump to.
+    - Possible values:
+        - `name`: jump to name property in component (default)
+        - `export default`: jump to 'export default' inside of script tag in file
+        - `template`: jump to `<template>` tag in file
+- `vue2SfcGotoDefinition.alias`: Alias for src directory. Usually '@' or '~' in jsconfig.json.
+    - Possible values: 
+        - `@` (default)
+        - `~`
 
-For example:
 
-This extension contributes the following settings:
+## Skip peek
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+If you're using [The Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) extension for VSCode alongside this extension, VSCode will display a peek preview with both the nearest definition and the component file. To go directly to the component file, set `"editor.gotoLocation.multipleDefinitions": "goto"` in your settings.json.
 
-## Known Issues
+This extension provides commands to set this setting:
+* `>Set 'goto' on multiple definitions globally (User)`: Sets 'goto' for Multiple Definitions in global (user) configuration target.
+* `>Set 'goto' on multiple definitions in workspace`: Sets 'goto' for Multiple Definitions in workspace configuration target (current project).
+* `>Set 'goto' on multiple definitions in workspace folder`: Sets 'goto' for Multiple Definitions in workspace folder configuration target (current project - .vscode folder).
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
 
-## Release Notes
+## Expansion ideas
 
-Users appreciate release notes as you update your extension.
+> While developing this extension, I came across a few ideas on how to expand it. I might be able to incorporate them someday. I'm open to contributions.
 
-### 1.0.0
+1. Definition provider for components property
+    > Inside the script tag, components are defined in the "components" property. Currently, "go to definition" takes you to the nearest definition (likely an import statement) instead of the component file.
+2. Definition provider for import lines
+    > "Go to definition" on a component in an import statement doesn't work if the path doesn't end with ".vue".
+3. Support global imports
+    > The extension doesn't recognize globally registered components.
+4. Support no alias or multiple
+    > The extension may not work in projects without aliases set or with multiple aliases (this needs testing).
 
-Initial release of ...
+## License
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
-
-# TODO
-
-- [x] Make it work
-- [x] Trigger on ctrl-click (or on go to definition event)
-- [x] Check if file exists
-- [x] Precise position or range
-- [x] Config (name, export default, template)
-- [x] Config alias resolving
-- [x] Only peek commands (Global, workspace)
-- [x] Eslint rules (and prettier?)
-- [x] Remove everything related to tests
-- [x] Get rid of webpack (tsup or rollup)
-- [x] package.json
-- [ ] Read me
-- [x] License
-- [ ] Publish v1
-- [ ] Olda profits
-
-# Can add later
-- [ ] Definition provider for components property
-- [ ] Definition provider for import lines
-- [ ] Support global imports
-- [ ] Support no alias
+[MIT](./LICENSE) License © 2024 [Daniel Petr Honys](https://github.com/DPHonys)

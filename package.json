@@ -3,6 +3,7 @@
   "name": "vue-2-sfc-goto-definition",
   "displayName": "Vue 2 SFC Goto Definition",
   "description": "Go to component definition in Vue 2 SFC",
+  "icon": "assets/icon.png",
   "license": "MIT",
   "version": "0.1.6",
   "packageManager": "pnpm@9.0.6",
@@ -54,7 +55,7 @@
             "@",
             "~"
           ],
-          "description": "Alias for src directory. Usually '@' or '~' in jsconfig.json"
+          "description": "Alias for src directory. Usually '@' or '~' in jsconfig.json."
         }
       }
     },
