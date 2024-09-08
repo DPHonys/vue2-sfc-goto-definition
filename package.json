@@ -3,9 +3,21 @@
   "name": "vue-2-sfc-goto-definition",
   "displayName": "Vue 2 SFC Goto Definition",
   "description": "Go to component definition in Vue 2 SFC",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "packageManager": "pnpm@9.0.6",
   "author": "Daniel Petr Honys <danielhonys@gmail.com>",
+  "homepage": "https://github.com/DPHonys/vue2-sfc-goto-definition#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DPHonys/vue2-sfc-goto-definition"
+  },
+  "bugs": {
+    "url": "https://github.com/DPHonys/vue2-sfc-goto-definition/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/extension.js",
   "engines": {
     "vscode": "^1.93.0"
   },
@@ -15,7 +27,6 @@
   "activationEvents": [
     "onLanguage:vue"
   ],
-  "main": "./dist/extension.js",
   "contributes": {
     "configuration": {
       "title": "Vue 2 SFC Goto Definition",
