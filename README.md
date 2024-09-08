@@ -75,7 +75,7 @@ You can author your README using Visual Studio Code. Here are some useful editor
 - [x] Make it work
 - [x] Trigger on ctrl-click (or on go to definition event)
 - [x] Check if file exists
-- [ ] Precise position
+- [x] Precise position
 - [x] Config (name, export default, template)
 - [x] Config alias resolving
 - [ ] Only peek commands (Global, workspace)
@@ -85,3 +85,9 @@ You can author your README using Visual Studio Code. Here are some useful editor
 - [ ] Read me
 - [ ] Publish v0
 - [ ] Olda profits
+
+# Can add later
+- [ ] Definition provider for components property support
+- [ ] Definition provider for import lines
+- [ ] Support global imports
+- [ ] Support no alias

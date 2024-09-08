@@ -1,20 +1,40 @@
-import { languages, Uri, Location, Position } from "vscode";
+import { languages, Uri, Location, Position, workspace } from "vscode";
 import { dirname } from "node:path";
-import { joinOnOverlap } from "./utils";
 import { existsSync } from "node:fs";
+import { config } from "./configuration";
+
+function joinOnOverlap(dirPath: string, filePath: string): string | undefined {
+  const dirParts = dirPath.split("/").splice(1);
+  const fileParts = filePath.split("/").splice(1);
+
+  let overlap = -1;
+  for (let i = 0; i < dirParts.length; i++) {
+    if (fileParts.includes(dirParts[i])) {
+      overlap = i;
+      break;
+    }
+  }
+
+  if (overlap === -1) {
+    return undefined;
+  }
+
+  const newPathParts = [...dirParts.slice(0, overlap), ...fileParts];
+  return "/" + newPathParts.join("/");
+}
 
 export function vue2SfcGotoDefinitionProvider() {
   return languages.registerDefinitionProvider(
     { scheme: "file", language: "vue" },
     {
-      provideDefinition(document, position) {
+      async provideDefinition(triggerDocument, triggerPosition) {
         // Only run for .vue files
-        if (!document.uri.fsPath.endsWith(".vue")) {
+        if (!triggerDocument.uri.fsPath.endsWith(".vue")) {
           return null;
         }
 
         // Check if in template section
-        const lines = document.getText().split("\n");
+        const lines = triggerDocument.getText().split("\n");
         const templateStartLine = lines.findIndex((line) =>
           line.includes("<template>")
         );
@@ -22,17 +42,17 @@ export function vue2SfcGotoDefinitionProvider() {
           line.includes("</template>")
         );
         if (
-          position.line < templateStartLine ||
-          position.line > templateEndLine
+          triggerPosition.line < templateStartLine ||
+          triggerPosition.line > templateEndLine
         ) {
           return null;
         }
 
         // Check if component
-        const componentName = document.getText(
-          document.getWordRangeAtPosition(position)
+        const componentName = triggerDocument.getText(
+          triggerDocument.getWordRangeAtPosition(triggerPosition)
         );
-        const fullLine = document.lineAt(position.line).text;
+        const fullLine = triggerDocument.lineAt(triggerPosition.line).text;
         if (!fullLine.includes("<" + componentName)) {
           return null;
         }
@@ -69,8 +89,11 @@ export function vue2SfcGotoDefinitionProvider() {
         let file = importPath.endsWith(".vue")
           ? importPath
           : importPath + ".vue"; // Add .vue extension if missing
-        file = file.startsWith("@") ? file.slice(1) : file; // Remove @ symbol if present
-        const joinedPath = joinOnOverlap(dirname(document.uri.fsPath), file);
+        file = file.startsWith(config.getAlias()) ? file.slice(1) : file; // Remove alias symbol if present
+        const joinedPath = joinOnOverlap(
+          dirname(triggerDocument.uri.fsPath),
+          file
+        );
         if (!joinedPath) {
           return null;
         }
@@ -81,10 +104,45 @@ export function vue2SfcGotoDefinitionProvider() {
           return null;
         }
 
-        // TODO: get precise position - try name of component, or export default as fallback use template
+        // Find the position
+        let position = new Position(0, 0);
+        await workspace.openTextDocument(uri).then((doc) => {
+          const text = doc.getText();
+          const startPosition = text.indexOf(
+            (() => {
+              switch (config.getLocation()) {
+                case "name":
+                  return "export default";
+                case "export default":
+                  return "<script>";
+                default:
+                  return "";
+              }
+            })()
+          );
+          const index = text.indexOf(
+            (() => {
+              switch (config.getLocation()) {
+                case "name":
+                  return componentName;
+                case "export default":
+                  return "export default";
+                case "template":
+                  return "<template>";
+                default:
+                  return "";
+              }
+            })(),
+            startPosition
+          );
+          if (index !== -1) {
+            const a = doc.positionAt(index);
+            position = new Position(a.line, a.character);
+          }
+        });
 
         // Open the file in the editor
-        const location = new Location(uri, new Position(0, 0));
+        const location = new Location(uri, position);
         return location;
       },
     }

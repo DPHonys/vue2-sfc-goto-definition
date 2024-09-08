@@ -1,6 +1,6 @@
 import { ExtensionContext, workspace } from "vscode";
 import { vue2SfcGotoDefinitionProvider } from "./definitionProvider";
-import { configurationKeys, isEnabled } from "./configuration";
+import { ConfigurationFullKeys, config } from "./configuration";
 
 function enableDefinitionProvider(context: ExtensionContext) {
   context.subscriptions.push(vue2SfcGotoDefinitionProvider());
@@ -14,14 +14,14 @@ function disableDefinitionProvider(context: ExtensionContext) {
 }
 
 export function activate(context: ExtensionContext) {
-  if (isEnabled()) {
+  if (config.isEnabled()) {
     enableDefinitionProvider(context);
   }
 
   // Watch for configuration changes
   workspace.onDidChangeConfiguration((e) => {
-    if (e.affectsConfiguration(configurationKeys.ENABLE)) {
-      if (isEnabled()) {
+    if (e.affectsConfiguration(ConfigurationFullKeys.ENABLE)) {
+      if (config.isEnabled()) {
         enableDefinitionProvider(context);
       } else {
         disableDefinitionProvider(context);

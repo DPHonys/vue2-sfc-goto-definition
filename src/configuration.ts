@@ -2,24 +2,35 @@ import { workspace } from "vscode";
 
 const configurationSection = "vue2SfcGotoDefinition";
 
-export enum configurationKeys {
-    ENABLE = configurationSection + ".enable",
-    ALIAS = configurationSection + ".alias",
-    LOCATION = configurationSection + ".location",
+export enum ConfigurationKeys {
+    ENABLE = "enable",
+    ALIAS = "alias",
+    LOCATION = "location",
 }
 
-export function getConfiguration() {
-    return workspace.getConfiguration("vue2SfcGotoDefinition");
+export enum ConfigurationFullKeys {
+    ENABLE = configurationSection + "." + ConfigurationKeys.ENABLE,
+    ALIAS = configurationSection + "." + ConfigurationKeys.ALIAS,
+    LOCATION = configurationSection + "." + ConfigurationKeys.LOCATION,
 }
 
-export function isEnabled() {
-    return getConfiguration().get("enable");
+export enum LocationOptions {
+    NAME = "name",
+    EXPORT_DEFAULT = "export default",
+    TEMPLATE = "template",
 }
 
-export function getAlias() {
-    return getConfiguration().get("alias");
+export enum AliasOptions {
+    '@' = "@",
+    '~' = "~",
 }
 
-export function getLocation() {
-    return getConfiguration().get("location");
+function getConfiguration() {
+    return workspace.getConfiguration(configurationSection);
 }
+
+export const config = {
+    isEnabled: () => getConfiguration().get<boolean>(ConfigurationKeys.ENABLE, true),
+    getAlias: () => getConfiguration().get<string>(ConfigurationKeys.ALIAS, AliasOptions['@']),
+    getLocation: () => getConfiguration().get<string>(ConfigurationKeys.LOCATION, LocationOptions.NAME),
+};
