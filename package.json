@@ -3,7 +3,7 @@
   "name": "vue2-sfc-goto-definition",
   "displayName": "Vue 2 SFC Goto Definition",
   "description": "Go to component definition in Vue 2 SFC",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "packageManager": "pnpm@9.0.6",
   "author": "Daniel Petr Honys <danielhonys@gmail.com>",
   "engines": {
@@ -48,14 +48,15 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run package",
-    "compile": "webpack",
-    "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
+    "dev": "NODE_ENV=development rollup -c",
+    "build": "NODE_ENV=production rollup -c",
     "lint": "eslint src && prettier --check src",
     "lint:fix": "prettier --write --list-different src && eslint src --fix"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
     "@types/vscode": "^1.93.0",
@@ -65,9 +66,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "3.3.3",
-    "ts-loader": "^9.5.1",
-    "typescript": "^5.5.4",
-    "webpack": "^5.94.0",
-    "webpack-cli": "^5.1.4"
+    "rollup": "^4.21.2",
+    "typescript": "^5.5.4"
   }
 }
