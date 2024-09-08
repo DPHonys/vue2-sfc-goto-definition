@@ -76,8 +76,8 @@ You can author your README using Visual Studio Code. Here are some useful editor
 - [x] Trigger on ctrl-click (or on go to definition event)
 - [x] Check if file exists
 - [ ] Precise position
-- [ ] Config (name, export default, template)
-- [ ] Config alias resolving
+- [x] Config (name, export default, template)
+- [x] Config alias resolving
 - [ ] Only peek commands (Global, workspace)
 - [ ] Info about missing import?
 - [ ] Logging?

@@ -3,7 +3,7 @@
   "name": "vue2-sfc-goto-definition",
   "displayName": "Vue 2 SFC Goto Definition",
   "description": "Go to component definition in Vue 2 SFC",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "packageManager": "pnpm@9.0.6",
   "author": "Daniel Petr Honys <danielhonys@gmail.com>",
   "engines": {
@@ -16,7 +16,37 @@
     "onLanguage:vue"
   ],
   "main": "./dist/extension.js",
-  "contributes": {},
+  "contributes": {
+    "configuration": {
+      "title": "Vue 2 SFC Goto Definition",
+      "properties": {
+        "vue2SfcGotoDefinition.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Vue 2 SFC Goto Definition"
+        },
+        "vue2SfcGotoDefinition.location": {
+          "type": "string",
+          "default": "name",
+          "enum": [
+            "name",
+            "export default",
+            "template"
+          ],
+          "description": "Specify location of the definition in the component. Where to jump to."
+        },
+        "vue2SfcGotoDefinition.alias": {
+          "type": "string",
+          "default": "@",
+          "enum": [
+            "@",
+            "~"
+          ],
+          "description": "Alias for src directory. Usually '@' or '~' in jsconfig.json"
+        } 
+      }
+    }
+  },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
     "compile": "webpack",
