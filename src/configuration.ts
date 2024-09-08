@@ -20,6 +20,12 @@ export enum LocationOptions {
     TEMPLATE = "template",
 }
 
+export const LocationTextStartLines: Record<LocationOptions, string> = {
+    [LocationOptions.NAME]: "export default",
+    [LocationOptions.EXPORT_DEFAULT]: "<script>",
+    [LocationOptions.TEMPLATE]: "",
+};
+
 export enum AliasOptions {
     '@' = "@",
     '~' = "~",
@@ -31,6 +37,6 @@ function getConfiguration() {
 
 export const config = {
     isEnabled: () => getConfiguration().get<boolean>(ConfigurationKeys.ENABLE, true),
-    getAlias: () => getConfiguration().get<string>(ConfigurationKeys.ALIAS, AliasOptions['@']),
-    getLocation: () => getConfiguration().get<string>(ConfigurationKeys.LOCATION, LocationOptions.NAME),
+    getAlias: () => getConfiguration().get<AliasOptions>(ConfigurationKeys.ALIAS, AliasOptions['@']),
+    getLocation: () => getConfiguration().get<LocationOptions>(ConfigurationKeys.LOCATION, LocationOptions.NAME),
 };

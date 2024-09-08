@@ -1,7 +1,50 @@
-import { languages, Uri, Location, Position, workspace } from "vscode";
+import { languages, Uri, Location, Position, workspace, Range } from "vscode";
 import { dirname } from "node:path";
 import { existsSync } from "node:fs";
-import { config } from "./configuration";
+import { config, LocationOptions, LocationTextStartLines } from "./configuration";
+
+type MaybePositionOrRange = Position | Range;
+
+async function getPositionOrRange(
+  uri: Uri,
+  componentName: string
+): Promise<MaybePositionOrRange> {
+  const doc = await workspace.openTextDocument(uri);
+  const text = doc.getText();
+  const index = text.indexOf(
+    (() => {
+      switch (config.getLocation()) {
+        case LocationOptions.NAME:
+          return componentName;
+        case LocationOptions.EXPORT_DEFAULT:
+          return "export default";
+        case LocationOptions.TEMPLATE:
+          return "<template>";
+        default:
+          return "";
+      }
+    })(),
+    text.indexOf(LocationTextStartLines[config.getLocation()]
+    )
+  );
+  
+  if (index === -1) {
+    return new Position(0, 0);
+  }
+
+  const rangeStart = doc.positionAt(index);
+  switch (config.getLocation()) {
+    case LocationOptions.NAME:
+      const rangeEnd = doc.positionAt(index + componentName.length);
+      return new Range(rangeStart, rangeEnd);
+    case LocationOptions.EXPORT_DEFAULT:
+      return new Position(rangeStart.line, rangeStart.character);
+    case LocationOptions.TEMPLATE:
+      return new Position(rangeStart.line, rangeStart.character).with(0, 1);
+    default:
+      return new Position(0, 0);
+  }
+}
 
 function joinOnOverlap(dirPath: string, filePath: string): string | undefined {
   const dirParts = dirPath.split("/").splice(1);
@@ -104,45 +147,11 @@ export function vue2SfcGotoDefinitionProvider() {
           return null;
         }
 
-        // Find the position
-        let position = new Position(0, 0);
-        await workspace.openTextDocument(uri).then((doc) => {
-          const text = doc.getText();
-          const startPosition = text.indexOf(
-            (() => {
-              switch (config.getLocation()) {
-                case "name":
-                  return "export default";
-                case "export default":
-                  return "<script>";
-                default:
-                  return "";
-              }
-            })()
-          );
-          const index = text.indexOf(
-            (() => {
-              switch (config.getLocation()) {
-                case "name":
-                  return componentName;
-                case "export default":
-                  return "export default";
-                case "template":
-                  return "<template>";
-                default:
-                  return "";
-              }
-            })(),
-            startPosition
-          );
-          if (index !== -1) {
-            const a = doc.positionAt(index);
-            position = new Position(a.line, a.character);
-          }
-        });
+        // Find position or range
+        const positionOrRange = await getPositionOrRange(uri, componentName);
 
         // Open the file in the editor
-        const location = new Location(uri, position);
+        const location = new Location(uri, positionOrRange);
         return location;
       },
     }
