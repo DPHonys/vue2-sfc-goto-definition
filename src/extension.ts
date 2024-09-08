@@ -1,27 +1,6 @@
-import { ExtensionContext, languages, commands, Uri } from "vscode";
+import { ExtensionContext, languages, Uri, Location, Position, commands } from "vscode";
 import { dirname } from "node:path";
-
-function joinOnOverlap(dirPath: string, filePath: string): string | undefined {
-  const dirParts = dirPath.split("/").splice(1);
-  const fileParts = filePath.split("/").splice(1);
-
-  let overlap = 0;
-  let overlapFound = false;
-  for (let i = 0; i < dirParts.length; i++) {
-    if (fileParts.includes(dirParts[i])) {
-      overlap = i;
-      overlapFound = true;
-      break;
-    }
-  }
-
-  if (!overlapFound) {
-    return undefined;
-  }
-
-  const newPathParts = [...dirParts.slice(0, overlap), ...fileParts];
-  return '/' + newPathParts.join("/");
-}
+import { joinOnOverlap } from "./utils";
 
 export function activate(context: ExtensionContext) {
   const provider = languages.registerDefinitionProvider(
@@ -86,7 +65,9 @@ export function activate(context: ExtensionContext) {
         }
 
         // Map the path to the file
-        let file = importPath.endsWith(".vue") ? importPath : importPath + ".vue"; // Add .vue extension if missing
+        let file = importPath.endsWith(".vue")
+          ? importPath
+          : importPath + ".vue"; // Add .vue extension if missing
         file = file.startsWith("@") ? file.slice(1) : file; // Remove @ symbol if present
         const joinedPath = joinOnOverlap(dirname(document.uri.fsPath), file);
         if (!joinedPath) {
@@ -95,7 +76,11 @@ export function activate(context: ExtensionContext) {
 
         // TODO: Check if file exists
 
-        commands.executeCommand("vscode.open", Uri.file(joinedPath));
+        // TODO: get precise position - try name of component, or export default as fallback use template
+
+        // Open the file in the editor
+        const location = new Location(Uri.file(joinedPath), new Position(0, 0));
+        return location;
       },
     }
   );

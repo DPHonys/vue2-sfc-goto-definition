@@ -73,7 +73,13 @@ You can author your README using Visual Studio Code. Here are some useful editor
 # TODO
 
 - [x] Make it work
-- [ ] Trigger on ctrl-click (or on go to definition event)
+- [x] Trigger on ctrl-click (or on go to definition event)
+- [ ] Check if file exists
+- [ ] Precise position
+- [ ] Config (name, export default, template)
+- [ ] Only peek commands (Global, workspace)
+- [ ] Info about missing import
+- [ ] Logging?
 - [ ] Get rid of webpack (tsup or rollup)
 - [ ] Olda profits
 - [ ] Read me
