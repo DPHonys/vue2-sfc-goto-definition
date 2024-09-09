@@ -10,6 +10,13 @@ Vue 2 SFC goto definition
 Go to component definition in Vue 2 single file component.
 </p>
 
+<p align="center">
+<a href="https://marketplace.visualstudio.com/items?itemName=DPHonys.vue-2-sfc-goto-definition" target="__blank"><img src="https://shields.io/visual-studio-marketplace/v/DPHonys.vue-2-sfc-goto-definition?color=41B883&label=VS%20Code%20Marketplace&logo=visual-studio-code" alt="Visual Studio Marketplace Version" /></a>
+<a href="https://open-vsx.org/extension/DPHonys/vue-2-sfc-goto-definition" target="__blank"><img src="https://shields.io/open-vsx/v/DPHonys/vue-2-sfc-goto-definition?color=41B883&label=Open%20VSX%20Registry&logo=open-vsx" alt="Open VSX Registry Version" /></a>
+</p>
+
+<br>
+
 ## Motivation
 
 When working on "legacy" projects that use Vue 2, you sometimes need to jump to a component you're using in another component. [The Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) extension for VSCode doesn't quite work for this—it goes to the nearest definition in the current file rather than the component file itself. So, I've created this small extension to make my day-to-day work a bit easier.
