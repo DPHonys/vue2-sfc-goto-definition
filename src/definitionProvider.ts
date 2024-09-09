@@ -1,5 +1,10 @@
 import { languages, Uri, Location, Position, workspace, Range } from "vscode"
-import { dirname } from "node:path"
+import {
+  dirname,
+  normalize as pathNormalize,
+  join as pathJoin,
+  sep as pathSep
+} from "node:path"
 import { existsSync } from "node:fs"
 import {
   config,
@@ -7,12 +12,12 @@ import {
   LocationTextStartLines
 } from "./configuration"
 
-type MaybePositionOrRange = Position | Range
+type PositionOrRange = Position | Range
 
 async function getPositionOrRange(
   uri: Uri,
   componentName: string
-): Promise<MaybePositionOrRange> {
+): Promise<PositionOrRange> {
   const doc = await workspace.openTextDocument(uri)
   const text = doc.getText()
   const index = text.indexOf(
@@ -49,9 +54,15 @@ async function getPositionOrRange(
   }
 }
 
+function splitPath(path: string) {
+  return pathNormalize(path)
+    .split(pathSep)
+    .filter((part) => part)
+}
+
 function joinOnOverlap(dirPath: string, filePath: string): string | undefined {
-  const dirParts = dirPath.split("/").splice(1)
-  const fileParts = filePath.split("/").splice(1)
+  const dirParts = splitPath(dirPath)
+  const fileParts = splitPath(filePath)
 
   let overlap = -1
   for (let i = 0; i < dirParts.length; i++) {
@@ -65,8 +76,7 @@ function joinOnOverlap(dirPath: string, filePath: string): string | undefined {
     return undefined
   }
 
-  const newPathParts = [...dirParts.slice(0, overlap), ...fileParts]
-  return "/" + newPathParts.join("/")
+  return pathJoin(...dirParts.slice(0, overlap), ...fileParts)
 }
 
 export function vue2SfcGotoDefinitionProvider() {
