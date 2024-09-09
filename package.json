@@ -5,7 +5,7 @@
   "description": "Go to component definition in Vue 2 SFC",
   "icon": "assets/icon.png",
   "license": "MIT",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "packageManager": "pnpm@9.0.6",
   "author": "Daniel Petr Honys <danielhonys@gmail.com>",
   "homepage": "https://github.com/DPHonys/vue2-sfc-goto-definition#readme",
