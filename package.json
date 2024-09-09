@@ -5,7 +5,7 @@
   "description": "Go to component definition in Vue 2 SFC",
   "icon": "assets/icon.png",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "packageManager": "pnpm@9.0.6",
   "author": "Daniel Petr Honys <danielhonys@gmail.com>",
   "homepage": "https://github.com/DPHonys/vue2-sfc-goto-definition#readme",
@@ -77,7 +77,8 @@
     "lint": "eslint src && prettier --check src",
     "lint:fix": "prettier --write --list-different src && eslint src --fix",
     "package": "vsce package",
-    "publish": "vsce publish"
+    "publish": "vsce publish",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^26.0.1",
