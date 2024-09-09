@@ -19,7 +19,12 @@ Go to component definition in Vue 2 single file component.
 
 ## Motivation
 
-When working on "legacy" projects that use Vue 2, you sometimes need to jump to a component you're using in another component. [The Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) extension for VSCode doesn't quite work for this—it goes to the nearest definition in the current file rather than the component file itself. So, I've created this small extension to make my day-to-day work a bit easier.
+When working on "legacy" projects that use Vue 2, you sometimes need to jump to a component you're using in another component. [The Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) extension for VSCode doesn't quite work for this — it goes to the nearest definition in the current file rather than the component file itself. So, I've created this small extension to make my day-to-day work a bit easier.
+
+
+### Why not Vetur?
+
+The use of [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur) is no longer recommended due to Vue 2 reaching [end-of-life](https://v2.vuejs.org/eol/) (EOL) and the extension's development ceasing. It's now advised to use [The Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar), previously known as Volar. While Vetur does support "go to component definition" this feature only works if the path in the import statement ends with the .vue file extension.
 
 
 ## Extension Settings
