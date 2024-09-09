@@ -18,7 +18,7 @@
   ],
   "icon": "assets/icon.png",
   "license": "MIT",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "packageManager": "pnpm@9.0.6",
   "author": "Daniel Petr Honys <danielhonys@gmail.com>",
   "homepage": "https://github.com/DPHonys/vue2-sfc-goto-definition#readme",
